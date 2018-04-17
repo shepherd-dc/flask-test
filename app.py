@@ -9,7 +9,24 @@ app.config.from_object(config)
 
 @app.route('/')
 def index():
+    print(url_for('article',id='123'))
     return 'Index Page!'
+
+@app.route('/article/<id>')
+def article(id):
+    return '您请求的参数是：%s' % id
+
+@app.route('/user/<is_login>')
+def user(is_login):
+    if is_login == '1':
+        return '欢迎来到用户中心'
+    else:
+        login_url = url_for('login')
+        return redirect(login_url)  
+
+@app.route('/login/')
+def login():
+    return '请先登录'
 
 def connect_db():
     """Connects to the specific database."""
