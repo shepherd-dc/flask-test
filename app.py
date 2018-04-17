@@ -10,7 +10,12 @@ app.config.from_object(config)
 @app.route('/')
 def index():
     print(url_for('article',id='123'))
-    return 'Index Page!'
+    # return 'Index Page!'
+    args = {
+        'name':'Shepherd',
+        'addr':'Mars'
+    }
+    return render_template('index.html', **args)
 
 @app.route('/article/<id>')
 def article(id):
