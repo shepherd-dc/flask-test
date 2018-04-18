@@ -9,7 +9,7 @@ app.config.from_object(config)
 
 @app.route('/')
 def index():
-    print(url_for('article',id='123'))
+    # print(url_for('article',id='123'))
     # return 'Index Page!'
     args = {
         'name':'Shepherd',
@@ -31,7 +31,7 @@ def user(is_login):
 
 @app.route('/login/')
 def login():
-    return '请先登录'
+    return render_template('login.html')
 
 def connect_db():
     """Connects to the specific database."""

@@ -1,0 +1,16 @@
+a{
+    text-decoration: none;
+    color:#333;
+}
+a:hover{
+    color:#00f;
+    text-decoration: underline;
+}
+div{
+    height:200px;
+    width:200px;
+    overflow: hidden;
+}
+div img{
+    width:100%;
+}
