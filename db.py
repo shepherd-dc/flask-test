@@ -23,7 +23,27 @@ db.create_all()
 
 @app.route('/')
 def index():
-    return 'sqlalchemy'
+    # 增：
+    article1 = Article(title='headline', content='正文内容111')
+    db.session.add(article1)
+    db.session.commit()
+
+    # # 查：
+    # article1 = Article.query.filter(Article.id==1).first()
+    # print('title:%s' % article1.title)
+    # print('content:%s' % article1.content)
+
+    # # 改：
+    # article1 = Article.query.filter(Article.title=='headline').first()
+    # article1.title = 'new title'
+    # db.session.commit()
+
+    # 删：
+    # article1 = Article.query.filter(Article.title=='headline').first()
+    # db.session.delete(article1)
+    # db.session.commit()
+
+    return 'SQLAlchemy CURD'
 
 if __name__ == '__main__':
     app.run()
