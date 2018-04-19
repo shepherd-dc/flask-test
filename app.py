@@ -1,5 +1,5 @@
 import config
-from flask import Flask, url_for, render_template
+from flask import Flask, url_for, render_template, redirect
 from exts import db
 from models import User, Article
 
@@ -9,11 +9,17 @@ app.config.from_object(config)
 
 # 初始化数据模型
 db.init_app(app)
+# 将app推栈到服务器，获得app上下文
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def index():
-    # print(url_for('article',id='123'))
-    # return 'Index Page!'
+    # author1 = User.query.filter(User.username == 'shepherd').first()
+    # articles = author1.articles
+    # for article in articles:
+    #     print(article.title)
+
     args = {
         'name':'Shepherd',
         'addr':'Mars'
