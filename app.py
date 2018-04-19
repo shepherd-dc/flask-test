@@ -1,11 +1,14 @@
-import os
-import sqlite3
 import config
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
+from flask import Flask, url_for, render_template
+from exts import db
+from models import User, Article
 
 app = Flask(__name__)
 # app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 app.config.from_object(config)
+
+# 初始化数据模型
+db.init_app(app)
 
 @app.route('/')
 def index():
@@ -32,19 +35,6 @@ def user(is_login):
 @app.route('/login/')
 def login():
     return render_template('login.html')
-
-def connect_db():
-    """Connects to the specific database."""
-    rv = sqlite3.connect(app.config['DATABASE'])
-    rv.row_factory = sqlite3.Row
-    return rv
-
-def init_db():
-    with app.app_context():
-        db = get_db()
-        with app.open_resource('schema.sql', mode='r') as f:
-            db.cursor().executescript(f.read())
-        db.commit()
 
 if __name__ == '__main__':
     app.run()
