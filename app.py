@@ -9,9 +9,11 @@ app.config.from_object(config)
 
 # 初始化数据模型
 db.init_app(app)
-# 将app推栈到服务器，获得app上下文
-with app.app_context():
-    db.create_all()
+
+# # 将app推栈到服务器，获得app上下文
+# # 使用flask-migrater则不需要该映射
+# with app.app_context():
+#     db.create_all()
 
 @app.route('/')
 def index():
