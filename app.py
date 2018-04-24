@@ -1,5 +1,5 @@
 import config
-from flask import Flask, url_for, render_template, redirect
+from flask import Flask, url_for, render_template, redirect, request
 from exts import db
 from models import User, Article
 
@@ -40,9 +40,26 @@ def user(is_login):
         login_url = url_for('login')
         return redirect(login_url)  
 
-@app.route('/login/')
+# 默认的视图函数只能采用get请求，如果要使用post请求，需写明
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username == 'shepherd' and password == '123456':
+            pass
+        else:
+            return '用户名或密码错误'
+        return 'post request'
+
+@app.route('/search/')
+def search():
+    # print(request.args)
+    q = request.args.get('q')
+    return '查询关键字是：%s' % q
+    print(q)
 
 if __name__ == '__main__':
     app.run()
