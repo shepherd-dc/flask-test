@@ -1,7 +1,8 @@
 import config
-from flask import Flask, url_for, render_template, redirect, request
+from flask import Flask, url_for, render_template, redirect, request, g
 from exts import db
 from models import User, Article
+from utils import login_log
 
 app = Flask(__name__)
 # app.config.from_envvar('FLASKR_SETTINGS', silent=True)
@@ -49,10 +50,11 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         if username == 'shepherd' and password == '123456':
-            pass
+            g.username = username
+            login_log()
+            return '登录成功'
         else:
             return '用户名或密码错误'
-        return 'post request'
 
 @app.route('/search/')
 def search():
