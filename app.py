@@ -1,5 +1,5 @@
 import config
-from flask import Flask, url_for, render_template, redirect, request, g
+from flask import Flask, url_for, render_template, redirect, request, g, session
 from exts import db
 from models import User, Article
 from utils import login_log
@@ -33,10 +33,11 @@ def index():
 def article(id):
     return '您请求的参数是：%s' % id
 
-@app.route('/user/<is_login>')
-def user(is_login):
-    if is_login == '1':
-        return '欢迎来到用户中心'
+@app.route('/user/')
+def user():
+    # if session.get('username'):
+    if hasattr(g, 'username'):
+        return render_template('user.html')
     else:
         login_url = url_for('login')
         return redirect(login_url)  
@@ -50,12 +51,23 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         if username == 'shepherd' and password == '123456':
-            g.username = username
-            login_log()
-            return '登录成功'
+            session['username'] = username
+            session.permanent = True
+            # g.username = username
+            # login_log()
+            return redirect(url_for('user')) 
         else:
             return '用户名或密码错误'
 
+@app.before_request
+def is_login():
+    if session.get('username'):
+        g.username = session.get('username')
+
+@app.context_processor
+def user_center():
+    return {'uname':'carlos'}
+        
 @app.route('/search/')
 def search():
     # print(request.args)
