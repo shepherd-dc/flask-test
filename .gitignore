@@ -4,6 +4,7 @@ migrations/
 backup/
 fabfile.py
 **/__pycache__/
+.vscode
 *.swp
 *.log
 *.db
